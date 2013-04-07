@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>ExpectJS</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="expect.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h1">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1>ExpectJS</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>ExpectJS 0.0.1</p>
+<p>(c) 2013 Mikael Blomberg
+ExpectJS may be freely distributed under the MIT license.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="keyword">function</span>(){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h2>Initial Setup</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Save a reference to the global object (<code>window</code> in the browser, <code>exports</code>
+on the server).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> root = <span class="keyword">this</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Save the previous value of the <code>expect</code> variable, so that it can be
+restored later on, if <code>noConflict</code> is used.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> previousExpect = root.expect;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Create local references to array methods we&#39;ll want to use later.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> array = [];
+  <span class="keyword">var</span> push = array.push;
+  <span class="keyword">var</span> slice = array.slice;
+  <span class="keyword">var</span> splice = array.splice;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>The top-level namespace. All public ExpectJS classes and modules will
+be attached to this. Exported for both the browser and the server.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> expect = ExpectJS;
+  <span class="keyword">if</span> ((<span class="keyword">typeof</span> module === <span class="string">"object"</span>) &amp;&amp;
+      (<span class="keyword">typeof</span> module.exports === <span class="string">"object"</span>)) {
+    module.exports = expect;
+  } <span class="keyword">else</span> {
+    root.expect = expect;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Current version of the library. Keep in sync with <code>package.json</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.1'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Runs ExpectJS in <em>noConflict</em> mode, returning the <code>expect</code> variable
+to its previous owner. Returns a reference to this expect object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  expect.noConflict = <span class="keyword">function</span>() {
+    root.expect = previousExpect;
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>ExpectJS constructor</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">function</span> <span class="title">ExpectJS</span><span class="params">(expression)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>ExpectJS object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> prototype = Object.create(<span class="literal">null</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>ExpectJS &#39;not&#39; property to negate the matcher</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    prototype.not = Object.create(<span class="literal">null</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>A function for adding more matchers to ExpectJS.
+The added function will have the given name and
+negated in the &#39;not&#39; property.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">addMatcher</span><span class="params">(name, matcherFunction)</span> {</span>
+      prototype[name] = matcherFunction;
+      prototype.not[name] = <span class="keyword">function</span>(expected) {
+        <span class="keyword">return</span> prototype[name](!expected);
+      }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <h2>expect(&#39;expression&#39;).toBe</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>A Matcher function that compares objects or primitives &#39;expression&#39; and &#39;expected&#39;
+and passes if they are the same object or primitives</p>
+<p>Throws a failed object with actual and expected values.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toBe'</span>, <span class="keyword">function</span>(expected) {
+      <span class="keyword">if</span> (expression === expected) {
+        <span class="keyword">return</span>;
+      } <span class="keyword">else</span> {
+        <span class="keyword">var</span> failed = {
+          actual: expression,
+          expected: expected
+        };
+        <span class="keyword">throw</span> failed;
+      }
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Returns reference to the ExpectJS object with all the defined matchers.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  	<span class="keyword">return</span> prototype;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Immediately invoke the function expression to create the ExpectJS object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>}).call(<span class="keyword">this</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+  <div id="mocha">
+    <h1 class="header" >ExpectJS test suite</h1>
+  </div>
+  <script src="../node_modules/mocha/mocha.js"></script>
+  <script>mocha.setup('bdd');</script>
+  <script src="../expect.js"></script>
+  <script src="../tests/test.js"></script>
+  <script>
+    // Mocha highlights everything in the document, instead of just content in the #mocha div
+    // Fixed by hardcoding mocha as root, but should use the configured root if made into a patch
+    function highlight(js) {
+      return js
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\/\/(.*)/gm, '<span class="comment">//$1</span>')
+        .replace(/('.*?')/gm, '<span class="string">$1</span>')
+        .replace(/(\d+\.\d+)/gm, '<span class="number">$1</span>')
+        .replace(/(\d+)/gm, '<span class="number">$1</span>')
+        .replace(/\bnew *(\w+)/gm, '<span class="keyword">new</span> <span class="init">$1</span>')
+        .replace(/\b(function|new|throw|return|var|if|else)\b/gm, '<span class="keyword">$1</span>')
+    }
+
+    Mocha.utils.highlightTags = function(name) {
+      var code = document.getElementById("mocha").getElementsByTagName(name);
+      for (var i = 0, len = code.length; i < len; ++i) {
+        code[i].innerHTML = highlight(code[i].innerHTML);
+      }
+    };
+
+    var runner = mocha.run();
+    // runner.globals(['foo', 'bar', 'baz']);
+
+    // runner.on('test end', function(test){
+    // console.log(test.fullTitle());
+    // });
+  </script>
+</body>
+</html>

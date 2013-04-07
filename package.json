@@ -1,0 +1,26 @@
+{
+  "name": "ExpectJS",
+  "version": "0.0.1",
+  "description": "Behavior Driven Development assert library for JavaScript",
+  "main": "expect.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --require tests/import.js --reporter spec --check-leaks tests/",
+    "doc" : "./node_modules/.bin/docco --template docs/expect.jst --css docs/expect.css expect.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mikaelsc5/expectjs.git"
+  },
+  "keywords": [
+    "assert",
+    "bdd",
+    "expect",
+    "test"
+  ],
+  "author": "Mikael Blomberg",
+  "license": "MIT",
+  "devDependencies": {
+    "docco": "~0.6.2",
+    "mocha": "~1.9.0"
+  }
+}
