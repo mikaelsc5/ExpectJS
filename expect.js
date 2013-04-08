@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.1
+// ExpectJS 0.0.2
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -36,7 +36,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.1';
+  expect.VERSION = '0.0.2';
 
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
@@ -61,20 +61,24 @@
     function addMatcher(name, matcherFunction) {
       prototype[name] = matcherFunction;
       prototype.not[name] = function(expected) {
-        return prototype[name](!expected);
+        return prototype[name](expected, true);
       }
     }
 
   	// expect('expression').toBe
   	// -------------------------
 
-  	// A Matcher function that compares objects or primitives 'expression' and 'expected'
-    // and passes if they are the same object or primitives
+    // The 'toBe' matcher compares 'expression' and 'expected' with ===.
+    // 'not.toBe' compares 'expression' and 'exprected' with !==.
+    // The match passes if they are the same object or primitives and
+    // returns itself for chaining
 
-    // Throws a failed object with actual and expected values.
-    addMatcher('toBe', function(expected) {
-      if (expression === expected) {
-        return;
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toBe', function(expected, not) {
+      if (((not === true) && (expression !== expected)) ||
+          ((not !== true) && (expression === expected))) {
+        return this;
       } else {
         var failed = {
           actual: expression,

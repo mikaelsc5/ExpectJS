@@ -34,7 +34,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>ExpectJS 0.0.1</p>
+              <p>ExpectJS 0.0.2</p>
 <p>(c) 2013 Mikael Blomberg
 ExpectJS may be freely distributed under the MIT license.</p>
 
@@ -140,7 +140,7 @@ be attached to this. Exported for both the browser and the server.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.1'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.2'</span>;</pre></div></div>
             
         </li>
         
@@ -224,7 +224,7 @@ negated in the &#39;not&#39; property.</p>
             <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">addMatcher</span><span class="params">(name, matcherFunction)</span> {</span>
       prototype[name] = matcherFunction;
       prototype.not[name] = <span class="keyword">function</span>(expected) {
-        <span class="keyword">return</span> prototype[name](!expected);
+        <span class="keyword">return</span> prototype[name](expected, <span class="literal">true</span>);
       }
     }</pre></div></div>
             
@@ -250,15 +250,18 @@ negated in the &#39;not&#39; property.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>A Matcher function that compares objects or primitives &#39;expression&#39; and &#39;expected&#39;
-and passes if they are the same object or primitives</p>
-<p>Throws a failed object with actual and expected values.</p>
+              <p>The &#39;toBe&#39; matcher compares &#39;expression&#39; and &#39;expected&#39; with ===.
+&#39;not.toBe&#39; compares &#39;expression&#39; and &#39;exprected&#39; with !==.
+The match passes if they are the same object or primitives and
+returns itself for chaining</p>
+<p>A failed match throws a failed object with actual and expected values.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toBe'</span>, <span class="keyword">function</span>(expected) {
-      <span class="keyword">if</span> (expression === expected) {
-        <span class="keyword">return</span>;
+            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toBe'</span>, <span class="keyword">function</span>(expected, not) {
+      <span class="keyword">if</span> (((not === <span class="literal">true</span>) &amp;&amp; (expression !== expected)) ||
+          ((not !== <span class="literal">true</span>) &amp;&amp; (expression === expected))) {
+        <span class="keyword">return</span> <span class="keyword">this</span>;
       } <span class="keyword">else</span> {
         <span class="keyword">var</span> failed = {
           actual: expression,
@@ -293,7 +296,7 @@ and passes if they are the same object or primitives</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>Immediately invoke the function expression to create the ExpectJS object.</p>
+              <p>Immediately invoke the function expression to define the expect object.</p>
 
             </div>
             
