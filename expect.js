@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.2
+// ExpectJS 0.0.3
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -19,12 +19,6 @@
   // restored later on, if `noConflict` is used.
   var previousExpect = root.expect;
 
-  // Create local references to array methods we'll want to use later.
-  var array = [];
-  var push = array.push;
-  var slice = array.slice;
-  var splice = array.splice;
-
   // The top-level namespace. All public ExpectJS classes and modules will
   // be attached to this. Exported for both the browser and the server.
   var expect = ExpectJS;
@@ -36,8 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.2';
-
+  expect.VERSION = '0.0.3';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -58,12 +51,26 @@
     // A function for adding more matchers to ExpectJS.
     // The added function will have the given name and
     // negated in the 'not' property.
-    function addMatcher(name, matcherFunction) {
+    function addMatcher(name, matcherFunction, notMatcherFunction) {
       prototype[name] = matcherFunction;
-      prototype.not[name] = function(expected) {
-        return prototype[name](expected, true);
-      }
+      prototype.not[name] = notMatcherFunction;
     }
+
+    // A function for comparing 'expression' with 'expected' using the identity operator.
+    // The comparison is negated when 'not' is true.
+    // Returns itself for chaining.
+    function identityComparison(expected, not) {
+      if (((not === true) && (expression !== expected)) ||
+          ((not !== true) && (expression === expected))) {
+        return prototype;
+      } else {
+        var failed = {
+          actual: expression,
+          expected: expected
+        };
+        throw failed;
+      }
+    };
 
   	// expect('expression').toBe
   	// -------------------------
@@ -75,17 +82,28 @@
 
     // A failed match throws a failed object with actual and expected values.
 
-    addMatcher('toBe', function(expected, not) {
-      if (((not === true) && (expression !== expected)) ||
-          ((not !== true) && (expression === expected))) {
-        return this;
-      } else {
-        var failed = {
-          actual: expression,
-          expected: expected
-        };
-        throw failed;
-      }
+    addMatcher('toBe', function(expected) {
+      return identityComparison(expected, false);
+    }, function (expected) {
+      return identityComparison(expected, true);
+    });
+
+    // expect('expression').toBeDefined
+    // -------------------------
+
+    // The 'toBeDefined' matcher compares 'expression' with === undefined.
+    // 'not.toEqual' compares 'expression' with !== undefined.
+    // The match passes if they are the same object or primitives and
+    // returns itself for chaining
+
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toBeDefined', function() {
+      var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
+      return identityComparison(notDefined, true);
+    }, function() {
+      var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
+      return identityComparison(notDefined, false);
     });
 
     // Returns reference to the ExpectJS object with all the defined matchers.

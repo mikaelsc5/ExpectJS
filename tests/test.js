@@ -31,7 +31,17 @@ describe("ExpectJS", function() {
 			var b = a;
 
 			expect(a).toBe(b);
-			expect(a).not.toBe(b);
+			expect(a).not.toBe(null);
+		});
+
+		it("The 'toBeDefined' matcher compares against 'undefined'", function() {
+			var a = {
+				foo: 'foo'
+			};
+
+			expect(a.foo).toBeDefined();
+			expect(a.bar).not.toBeDefined();
 		});
 	});
+
 });

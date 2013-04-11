@@ -34,7 +34,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>ExpectJS 0.0.2</p>
+              <p>ExpectJS 0.0.3</p>
 <p>(c) 2013 Mikael Blomberg
 ExpectJS may be freely distributed under the MIT license.</p>
 
@@ -96,24 +96,6 @@ restored later on, if <code>noConflict</code> is used.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>Create local references to array methods we&#39;ll want to use later.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> array = [];
-  <span class="keyword">var</span> push = array.push;
-  <span class="keyword">var</span> slice = array.slice;
-  <span class="keyword">var</span> splice = array.splice;</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
               <p>The top-level namespace. All public ExpectJS classes and modules will
 be attached to this. Exported for both the browser and the server.</p>
 
@@ -130,26 +112,26 @@ be attached to this. Exported for both the browser and the server.</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Current version of the library. Keep in sync with <code>package.json</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.2'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.3'</span>;</pre></div></div>
             
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Runs ExpectJS in <em>noConflict</em> mode, returning the <code>expect</code> variable
 to its previous owner. Returns a reference to this expect object.</p>
@@ -164,11 +146,11 @@ to its previous owner. Returns a reference to this expect object.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>ExpectJS constructor</p>
 
@@ -179,11 +161,11 @@ to its previous owner. Returns a reference to this expect object.</p>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>ExpectJS object</p>
 
@@ -194,11 +176,11 @@ to its previous owner. Returns a reference to this expect object.</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>ExpectJS &#39;not&#39; property to negate the matcher</p>
 
@@ -209,11 +191,11 @@ to its previous owner. Returns a reference to this expect object.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>A function for adding more matchers to ExpectJS.
 The added function will have the given name and
@@ -221,12 +203,38 @@ negated in the &#39;not&#39; property.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">addMatcher</span><span class="params">(name, matcherFunction)</span> {</span>
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">addMatcher</span><span class="params">(name, matcherFunction, notMatcherFunction)</span> {</span>
       prototype[name] = matcherFunction;
-      prototype.not[name] = <span class="keyword">function</span>(expected) {
-        <span class="keyword">return</span> prototype[name](expected, <span class="literal">true</span>);
-      }
+      prototype.not[name] = notMatcherFunction;
     }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>A function for comparing &#39;expression&#39; with &#39;expected&#39; using the identity operator.
+The comparison is negated when &#39;not&#39; is true.
+Returns itself for chaining.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="function"><span class="keyword">function</span> <span class="title">identityComparison</span><span class="params">(expected, not)</span> {</span>
+      <span class="keyword">if</span> (((not === <span class="literal">true</span>) &amp;&amp; (expression !== expected)) ||
+          ((not !== <span class="literal">true</span>) &amp;&amp; (expression === expected))) {
+        <span class="keyword">return</span> prototype;
+      } <span class="keyword">else</span> {
+        <span class="keyword">var</span> failed = {
+          actual: expression,
+          expected: expected
+        };
+        <span class="keyword">throw</span> failed;
+      }
+    };</pre></div></div>
             
         </li>
         
@@ -258,17 +266,10 @@ returns itself for chaining</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toBe'</span>, <span class="keyword">function</span>(expected, not) {
-      <span class="keyword">if</span> (((not === <span class="literal">true</span>) &amp;&amp; (expression !== expected)) ||
-          ((not !== <span class="literal">true</span>) &amp;&amp; (expression === expected))) {
-        <span class="keyword">return</span> <span class="keyword">this</span>;
-      } <span class="keyword">else</span> {
-        <span class="keyword">var</span> failed = {
-          actual: expression,
-          expected: expected
-        };
-        <span class="keyword">throw</span> failed;
-      }
+            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toBe'</span>, <span class="keyword">function</span>(expected) {
+      <span class="keyword">return</span> identityComparison(expected, <span class="literal">false</span>);
+    }, <span class="function"><span class="keyword">function</span> <span class="params">(expected)</span> {</span>
+      <span class="keyword">return</span> identityComparison(expected, <span class="literal">true</span>);
     });</pre></div></div>
             
         </li>
@@ -277,8 +278,46 @@ returns itself for chaining</p>
         <li id="section-16">
             <div class="annotation">
               
-              <div class="pilwrap ">
+              <div class="pilwrap for-h2">
                 <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <h2>expect(&#39;expression&#39;).toBeDefined</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>The &#39;toBeDefined&#39; matcher compares &#39;expression&#39; with === undefined.
+&#39;not.toEqual&#39; compares &#39;expression&#39; with !== undefined.
+The match passes if they are the same object or primitives and
+returns itself for chaining</p>
+<p>A failed match throws a failed object with actual and expected values.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toBeDefined'</span>, <span class="keyword">function</span>() {
+      <span class="keyword">var</span> notDefined; <span class="comment">// notDefined is deliberately not defined, to be evaluated as undefined.</span>
+      <span class="keyword">return</span> identityComparison(notDefined, <span class="literal">true</span>);
+    }, <span class="keyword">function</span>() {
+      <span class="keyword">var</span> notDefined; <span class="comment">// notDefined is deliberately not defined, to be evaluated as undefined.</span>
+      <span class="keyword">return</span> identityComparison(notDefined, <span class="literal">false</span>);
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Returns reference to the ExpectJS object with all the defined matchers.</p>
 
@@ -290,11 +329,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Immediately invoke the function expression to define the expect object.</p>
 

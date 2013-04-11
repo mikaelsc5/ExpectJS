@@ -15,6 +15,13 @@ ExpectJS is a Behavior Driven Development assertion library for JavaScript.
 
 Jasmine, Chai and expect.js are great, but they all have something that didn't quite work as well as it could. Asynchronous testing support could be better in Jasmine. Chai didn't work in IE8 out of the box. expect.js has unfixed bugs and the syntax isn't as fluent as Jasmine's.
 
+## Included matchers
+
+**toBe**
+**toBeDefined**
+
+All matchers have a 'not' implemention that negate the matching.
+
 ### The MIT License (MIT)
 
 > Copyright (C) 2013 Mikael Blomberg.
