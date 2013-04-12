@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.3
+// ExpectJS 0.0.4
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.3';
+  expect.VERSION = '0.0.4';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -91,8 +91,8 @@
     // expect('expression').toBeDefined
     // -------------------------
 
-    // The 'toBeDefined' matcher compares 'expression' with === undefined.
-    // 'not.toEqual' compares 'expression' with !== undefined.
+    // The 'toBeDefined' matcher compares 'expression' with !== undefined.
+    // 'not.toBeDefined' compares 'expression' with === undefined.
     // The match passes if they are the same object or primitives and
     // returns itself for chaining
 
@@ -106,8 +106,26 @@
       return identityComparison(notDefined, false);
     });
 
+    // expect('expression').toBeUndefined
+    // -------------------------
+
+    // The 'toBeUndefined' matcher compares 'expression' with === undefined.
+    // 'not.toBeUndefined' compares 'expression' with !== undefined.
+    // The match passes if they are the same object or primitives and
+    // returns itself for chaining
+
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toBeUndefined', function() {
+      var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
+      return identityComparison(notDefined, false);
+    }, function() {
+      var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
+      return identityComparison(notDefined, true);
+    });
+
     // Returns reference to the ExpectJS object with all the defined matchers.
-  	return prototype;
+    return prototype;
   }
 
 // Immediately invoke the function expression to define the expect object.

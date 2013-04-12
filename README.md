@@ -17,8 +17,9 @@ Jasmine, Chai and expect.js are great, but they all have something that didn't q
 
 ## Included matchers
 
-**toBe**
-**toBeDefined**
+The **'toBe'** matcher compares with ===
+The **'toBeDefined'** matcher compares against 'undefined'
+The **'toBeUndefined'** matcher compares against 'undefined'
 
 All matchers have a 'not' implemention that negate the matching.
 

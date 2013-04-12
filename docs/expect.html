@@ -34,7 +34,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>ExpectJS 0.0.3</p>
+              <p>ExpectJS 0.0.4</p>
 <p>(c) 2013 Mikael Blomberg
 ExpectJS may be freely distributed under the MIT license.</p>
 
@@ -122,7 +122,7 @@ be attached to this. Exported for both the browser and the server.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.3'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.4'</span>;</pre></div></div>
             
         </li>
         
@@ -294,8 +294,8 @@ returns itself for chaining</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>The &#39;toBeDefined&#39; matcher compares &#39;expression&#39; with === undefined.
-&#39;not.toEqual&#39; compares &#39;expression&#39; with !== undefined.
+              <p>The &#39;toBeDefined&#39; matcher compares &#39;expression&#39; with !== undefined.
+&#39;not.toBeDefined&#39; compares &#39;expression&#39; with === undefined.
 The match passes if they are the same object or primitives and
 returns itself for chaining</p>
 <p>A failed match throws a failed object with actual and expected values.</p>
@@ -316,15 +316,12 @@ returns itself for chaining</p>
         <li id="section-18">
             <div class="annotation">
               
-              <div class="pilwrap ">
+              <div class="pilwrap for-h2">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>Returns reference to the ExpectJS object with all the defined matchers.</p>
+              <h2>expect(&#39;expression&#39;).toBeUndefined</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>  	<span class="keyword">return</span> prototype;
-  }</pre></div></div>
             
         </li>
         
@@ -334,6 +331,47 @@ returns itself for chaining</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>The &#39;toBeUndefined&#39; matcher compares &#39;expression&#39; with === undefined.
+&#39;not.toBeUndefined&#39; compares &#39;expression&#39; with !== undefined.
+The match passes if they are the same object or primitives and
+returns itself for chaining</p>
+<p>A failed match throws a failed object with actual and expected values.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toBeUndefined'</span>, <span class="keyword">function</span>() {
+      <span class="keyword">var</span> notDefined; <span class="comment">// notDefined is deliberately not defined, to be evaluated as undefined.</span>
+      <span class="keyword">return</span> identityComparison(notDefined, <span class="literal">false</span>);
+    }, <span class="keyword">function</span>() {
+      <span class="keyword">var</span> notDefined; <span class="comment">// notDefined is deliberately not defined, to be evaluated as undefined.</span>
+      <span class="keyword">return</span> identityComparison(notDefined, <span class="literal">true</span>);
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Returns reference to the ExpectJS object with all the defined matchers.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">return</span> prototype;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Immediately invoke the function expression to define the expect object.</p>
 
