@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.4
+// ExpectJS 0.0.5
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.4';
+  expect.VERSION = '0.0.5';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -123,6 +123,25 @@
       var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
       return identityComparison(notDefined, true);
     });
+
+    // expect('expression').toBeNull
+    // -------------------------
+
+    // The 'toBeNull' matcher compares 'expression' with === null.
+    // 'not.toBeNull' compares 'expression' with !== null.
+    // The match passes if they are the same object or primitives and
+    // returns itself for chaining
+
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toBeNull', function() {
+      var isNull = null;
+      return identityComparison(isNull, false);
+    }, function() {
+      var isNull = null;
+      return identityComparison(isNull, true);
+    });
+
 
     // Returns reference to the ExpectJS object with all the defined matchers.
     return prototype;

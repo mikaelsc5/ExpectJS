@@ -17,11 +17,16 @@ Jasmine, Chai and expect.js are great, but they all have something that didn't q
 
 ## Included matchers
 
-The **'toBe'** matcher compares with ===
-The **'toBeDefined'** matcher compares against 'undefined'
-The **'toBeUndefined'** matcher compares against 'undefined'
+The _'toBe'_ matcher compares with ===
 
-All matchers have a 'not' implemention that negate the matching.
+The _'toBeDefined'_ matcher compares against 'undefined'
+
+The _'toBeUndefined'_ matcher compares against 'undefined'
+
+The _'toBeNull'_ matcher compares against 'null'
+
+
+All matchers have a _'not'_ implemention that negate the matching.
 
 ### The MIT License (MIT)
 
