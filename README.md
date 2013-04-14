@@ -25,6 +25,8 @@ The _'toBeUndefined'_ matcher compares against 'undefined'
 
 The _'toBeNull'_ matcher compares against 'null'
 
+The _'toBeTruthy'_ matcher is for boolean casting testing
+
 
 All matchers have a _'not'_ implemention that negate the matching.
 

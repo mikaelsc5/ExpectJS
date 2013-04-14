@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.5
+// ExpectJS 0.0.6
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.5';
+  expect.VERSION = '0.0.6';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -56,16 +56,16 @@
       prototype.not[name] = notMatcherFunction;
     }
 
-    // A function for comparing 'expression' with 'expected' using the identity operator.
+    // A function for comparing 'actual' with 'expected' using the identity operator.
     // The comparison is negated when 'not' is true.
     // Returns itself for chaining.
-    function identityComparison(expected, not) {
-      if (((not === true) && (expression !== expected)) ||
-          ((not !== true) && (expression === expected))) {
+    function identityComparison(actual, expected, not) {
+      if (((not === true) && (actual !== expected)) ||
+          ((not !== true) && (actual === expected))) {
         return prototype;
       } else {
         var failed = {
-          actual: expression,
+          actual: actual,
           expected: expected
         };
         throw failed;
@@ -83,9 +83,9 @@
     // A failed match throws a failed object with actual and expected values.
 
     addMatcher('toBe', function(expected) {
-      return identityComparison(expected, false);
+      return identityComparison(expression, expected, false);
     }, function (expected) {
-      return identityComparison(expected, true);
+      return identityComparison(expression, expected, true);
     });
 
     // expect('expression').toBeDefined
@@ -100,10 +100,10 @@
 
     addMatcher('toBeDefined', function() {
       var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
-      return identityComparison(notDefined, true);
+      return identityComparison(expression, notDefined, true);
     }, function() {
       var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
-      return identityComparison(notDefined, false);
+      return identityComparison(expression, notDefined, false);
     });
 
     // expect('expression').toBeUndefined
@@ -118,10 +118,10 @@
 
     addMatcher('toBeUndefined', function() {
       var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
-      return identityComparison(notDefined, false);
+      return identityComparison(expression, notDefined, false);
     }, function() {
       var notDefined; // notDefined is deliberately not defined, to be evaluated as undefined.
-      return identityComparison(notDefined, true);
+      return identityComparison(expression, notDefined, true);
     });
 
     // expect('expression').toBeNull
@@ -136,10 +136,23 @@
 
     addMatcher('toBeNull', function() {
       var isNull = null;
-      return identityComparison(isNull, false);
+      return identityComparison(expression, isNull, false);
     }, function() {
       var isNull = null;
-      return identityComparison(isNull, true);
+      return identityComparison(expression, isNull, true);
+    });
+
+    // The 'toBeThruthy' matcher compares !!'expression' with === true.
+    // 'not.toBeThruthy' compares !!'expression' with !== true.
+    // The match passes if they are both true
+    // returns itself for chaining
+
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toBeTruthy', function() {
+      return identityComparison(!!expression, true, false);
+    }, function() {
+      return identityComparison(!!expression, true, true);
     });
 
 

@@ -60,6 +60,13 @@ describe("ExpectJS", function() {
 			expect(a).toBeNull();
 			expect(foo).not.toBeNull();
 		});
+
+		it("The 'toBeTruthy' matcher is for boolean casting testing", function() {
+			var a, foo = 'foo';
+
+			expect(foo).toBeTruthy();
+			expect(a).not.toBeTruthy();
+		});
 	});
 
 });
