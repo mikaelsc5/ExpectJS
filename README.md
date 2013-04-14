@@ -27,6 +27,8 @@ The _'toBeNull'_ matcher compares against 'null'
 
 The _'toBeTruthy'_ matcher is for boolean casting testing
 
+The _'toBeFalsy'_ matcher is for boolean casting testing
+
 
 All matchers have a _'not'_ implemention that negate the matching.
 

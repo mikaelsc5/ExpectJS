@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.6
+// ExpectJS 0.0.7
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.6';
+  expect.VERSION = '0.0.7';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -153,6 +153,19 @@
       return identityComparison(!!expression, true, false);
     }, function() {
       return identityComparison(!!expression, true, true);
+    });
+
+    // The 'toBeFalsy' matcher compares !'expression' with === true.
+    // 'not.toBeFalsy' compares !!'expression' with !== true.
+    // The match passes if they are both false
+    // returns itself for chaining
+
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toBeFalsy', function() {
+      return identityComparison(!expression, true, false);
+    }, function() {
+      return identityComparison(!expression, true, true);
     });
 
 
