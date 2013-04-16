@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.7
+// ExpectJS 0.0.8
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.7';
+  expect.VERSION = '0.0.8';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -71,6 +71,43 @@
         throw failed;
       }
     };
+
+    // A function for recursively comparing array values with 'expected' using the identity operator.
+    // The comparison is negated when 'not' is true.
+    // Returns itself for chaining.
+
+    function recursiveComparison(array, expected, not) {
+      // Store the index for the last value in the array to compare
+      // when all elements in the array has been checked
+      var lastIndex = array.length - 1;
+
+      // Use recursion function to utilizes the closure for accessing the values
+      var recursion = function(index) {
+        var value = array[index];
+        // Halt condition:
+        // All elements in the array has been checked and none was the 'expected' value or
+        // the 'not' expected value has been found
+        if (((not !== true) && (lastIndex === index)) ||
+            ((not === true) && (value === expected))) {
+          var failed = {
+            actual: array,
+            expected: expected
+          };
+          throw failed;
+        // Pass condition:
+        // The 'expected' value has been found or
+        // all elements in the array has been checked and none was the 'not' expected value
+        } else if (((not !== true) && (value === expected)) ||
+                   ((not === true) && (lastIndex === index))) {
+          return prototype;
+        } else {
+          return recursion(index + 1);
+        }
+      };
+      // Execute the recursion function to start from the first element in the array
+      recursion(0);
+    }
+
 
   	// expect('expression').toBe
   	// -------------------------
@@ -166,6 +203,19 @@
       return identityComparison(!expression, true, false);
     }, function() {
       return identityComparison(!expression, true, true);
+    });
+
+    // The 'toContain' matcher searches the 'expression' Array for the 'expected' value.
+    // 'not.toContain' searches the 'expression' Array not to contain the 'expected' value.
+    // The match passes if the 'expected' value is found.
+    // returns itself for chaining
+
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toContain', function(expected) {
+      return recursiveComparison(expression, expected, false);
+    }, function(expected) {
+      return recursiveComparison(expression, expected, true);
     });
 
 
