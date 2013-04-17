@@ -32,6 +32,7 @@ The _'toBeTruthy'_ matcher is for boolean casting testing
 
 The _'toBeFalsy'_ matcher is for boolean casting testing
 
+The _'toThrow'_ matcher is for testing if a function throws an exception
 
 All matchers have a _'not'_ implemention that negate the matching.
 
