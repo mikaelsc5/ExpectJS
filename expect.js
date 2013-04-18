@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.8
+// ExpectJS 0.0.9
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.8';
+  expect.VERSION = '0.0.9';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -48,6 +48,13 @@
     // ExpectJS 'not' property to negate the matcher
     prototype.not = Object.create(null);
 
+    // ExpectJS failed object
+    var failed = {
+      "message" : null,
+      "actual" : expression,
+      "expected" : null
+    }
+
     // A function for adding more matchers to ExpectJS.
     // The added function will have the given name and
     // negated in the 'not' property.
@@ -64,10 +71,8 @@
           ((not !== true) && (actual === expected))) {
         return prototype;
       } else {
-        var failed = {
-          actual: actual,
-          expected: expected
-        };
+        failed.message = "Expected " + expected + " to equal " + actual;
+        failed.expected = expected;
         throw failed;
       }
     };
@@ -89,10 +94,8 @@
         // the 'not' expected value has been found
         if (((not !== true) && (lastIndex === index)) ||
             ((not === true) && (value === expected))) {
-          var failed = {
-            actual: array,
-            expected: expected
-          };
+          failed.message = "Expected to find " + expected + " in " + array;
+          failed.expected = expected;
           throw failed;
         // Pass condition:
         // The 'expected' value has been found or
@@ -216,6 +219,33 @@
       return recursiveComparison(expression, expected, false);
     }, function(expected) {
       return recursiveComparison(expression, expected, true);
+    });
+
+    // The 'toThrow' matcher catches the exception the 'expression' throws when executed.
+    // 'not.toThrow' expects no exception to be thrown when the 'expression' is executed.
+    // The match passes if no exception is thrown.
+    // returns itself for chaining
+
+    // A failed match throws a failed object with actual and expected values.
+
+    addMatcher('toThrow', function(expected) {
+      try {
+        expression();
+      } catch (e) {
+        return prototype;
+      }
+      failed.message = "Expected " + expression + " to throw exception " + expected;
+      failed.expected = expected;
+      throw failed;
+    }, function(expected) {
+      try {
+        expression();
+      } catch (e) {
+        failed.message = "Expected " + expression + " not to throw exception " + expected;
+        failed.expected = expected;
+        throw failed;
+      }
+      return prototype;
     });
 
 

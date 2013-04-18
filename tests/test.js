@@ -82,6 +82,18 @@ describe("ExpectJS", function() {
 			expect(a).not.toContain('quux');
 
 		});
+
+		it("The 'toThrow' matcher is for testing if a function throws an exception", function() {
+			var foo = function() {
+				return 1 + 2;
+			};
+			var bar = function() {
+				return a + 1;
+			};
+
+			expect(foo).not.toThrow();
+			expect(bar).toThrow();
+		});
 	});
 
 });

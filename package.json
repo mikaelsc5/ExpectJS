@@ -1,6 +1,6 @@
 {
   "name": "expectjs",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Behavior Driven Development assert library for JavaScript",
   "main": "expect.js",
   "scripts": {

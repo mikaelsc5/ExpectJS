@@ -34,7 +34,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>ExpectJS 0.0.8</p>
+              <p>ExpectJS 0.0.9</p>
 <p>(c) 2013 Mikael Blomberg
 ExpectJS may be freely distributed under the MIT license.</p>
 
@@ -122,7 +122,7 @@ be attached to this. Exported for both the browser and the server.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.8'</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  expect.VERSION = <span class="string">'0.0.9'</span>;</pre></div></div>
             
         </li>
         
@@ -197,6 +197,25 @@ to its previous owner. Returns a reference to this expect object.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
+              <p>ExpectJS failed object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">var</span> failed = {
+      <span class="string">"message"</span> : <span class="literal">null</span>,
+      <span class="string">"actual"</span> : expression,
+      <span class="string">"expected"</span> : <span class="literal">null</span>
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
               <p>A function for adding more matchers to ExpectJS.
 The added function will have the given name and
 negated in the &#39;not&#39; property.</p>
@@ -211,11 +230,11 @@ negated in the &#39;not&#39; property.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>A function for comparing &#39;actual&#39; with &#39;expected&#39; using the identity operator.
 The comparison is negated when &#39;not&#39; is true.
@@ -228,10 +247,8 @@ Returns itself for chaining.</p>
           ((not !== <span class="literal">true</span>) &amp;&amp; (actual === expected))) {
         <span class="keyword">return</span> prototype;
       } <span class="keyword">else</span> {
-        <span class="keyword">var</span> failed = {
-          actual: actual,
-          expected: expected
-        };
+        failed.message = <span class="string">"Expected "</span> + expected + <span class="string">" to equal "</span> + actual;
+        failed.expected = expected;
         <span class="keyword">throw</span> failed;
       }
     };</pre></div></div>
@@ -239,11 +256,11 @@ Returns itself for chaining.</p>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>A function for recursively comparing array values with &#39;expected&#39; using the identity operator.
 The comparison is negated when &#39;not&#39; is true.
@@ -256,11 +273,11 @@ Returns itself for chaining.</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>Store the index for the last value in the array to compare
 when all elements in the array has been checked</p>
@@ -272,11 +289,11 @@ when all elements in the array has been checked</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>Use recursion function to utilizes the closure for accessing the values</p>
 
@@ -288,11 +305,11 @@ when all elements in the array has been checked</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Halt condition:
 All elements in the array has been checked and none was the &#39;expected&#39; value or
@@ -302,20 +319,18 @@ the &#39;not&#39; expected value has been found</p>
             
             <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> (((not !== <span class="literal">true</span>) &amp;&amp; (lastIndex === index)) ||
             ((not === <span class="literal">true</span>) &amp;&amp; (value === expected))) {
-          <span class="keyword">var</span> failed = {
-            actual: array,
-            expected: expected
-          };
+          failed.message = <span class="string">"Expected to find "</span> + expected + <span class="string">" in "</span> + array;
+          failed.expected = expected;
           <span class="keyword">throw</span> failed;</pre></div></div>
             
         </li>
         
         
-        <li id="section-18">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Pass condition:
 The &#39;expected&#39; value has been found or
@@ -334,11 +349,11 @@ all elements in the array has been checked and none was the &#39;not&#39; expect
         </li>
         
         
-        <li id="section-19">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Execute the recursion function to start from the first element in the array</p>
 
@@ -350,11 +365,11 @@ all elements in the array has been checked and none was the &#39;not&#39; expect
         </li>
         
         
-        <li id="section-20">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <h2>expect(&#39;expression&#39;).toBe</h2>
 
@@ -363,11 +378,11 @@ all elements in the array has been checked and none was the &#39;not&#39; expect
         </li>
         
         
-        <li id="section-21">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>The &#39;toBe&#39; matcher compares &#39;expression&#39; and &#39;expected&#39; with ===.
 &#39;not.toBe&#39; compares &#39;expression&#39; and &#39;exprected&#39; with !==.
@@ -386,11 +401,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <h2>expect(&#39;expression&#39;).toBeDefined</h2>
 
@@ -399,11 +414,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>The &#39;toBeDefined&#39; matcher compares &#39;expression&#39; with !== undefined.
 &#39;not.toBeDefined&#39; compares &#39;expression&#39; with === undefined.
@@ -424,11 +439,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <h2>expect(&#39;expression&#39;).toBeUndefined</h2>
 
@@ -437,11 +452,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>The &#39;toBeUndefined&#39; matcher compares &#39;expression&#39; with === undefined.
 &#39;not.toBeUndefined&#39; compares &#39;expression&#39; with !== undefined.
@@ -462,11 +477,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap for-h2">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <h2>expect(&#39;expression&#39;).toBeNull</h2>
 
@@ -475,11 +490,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>The &#39;toBeNull&#39; matcher compares &#39;expression&#39; with === null.
 &#39;not.toBeNull&#39; compares &#39;expression&#39; with !== null.
@@ -500,11 +515,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>The &#39;toBeThruthy&#39; matcher compares !!&#39;expression&#39; with === true.
 &#39;not.toBeThruthy&#39; compares !!&#39;expression&#39; with !== true.
@@ -523,11 +538,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p>The &#39;toBeFalsy&#39; matcher compares !&#39;expression&#39; with === true.
 &#39;not.toBeFalsy&#39; compares !!&#39;expression&#39; with !== true.
@@ -546,11 +561,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>The &#39;toContain&#39; matcher searches the &#39;expression&#39; Array for the &#39;expected&#39; value.
 &#39;not.toContain&#39; searches the &#39;expression&#39; Array not to contain the &#39;expected&#39; value.
@@ -569,11 +584,48 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-31">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>The &#39;toThrow&#39; matcher catches the exception the &#39;expression&#39; throws when executed.
+&#39;not.toThrow&#39; expects no exception to be thrown when the &#39;expression&#39; is executed.
+The match passes if no exception is thrown.
+returns itself for chaining</p>
+<p>A failed match throws a failed object with actual and expected values.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toThrow'</span>, <span class="keyword">function</span>(expected) {
+      <span class="keyword">try</span> {
+        expression();
+      } <span class="keyword">catch</span> (e) {
+        <span class="keyword">return</span> prototype;
+      }
+      failed.message = <span class="string">"Expected "</span> + expression + <span class="string">" to throw exception "</span> + expected;
+      failed.expected = expected;
+      <span class="keyword">throw</span> failed;
+    }, <span class="keyword">function</span>(expected) {
+      <span class="keyword">try</span> {
+        expression();
+      } <span class="keyword">catch</span> (e) {
+        failed.message = <span class="string">"Expected "</span> + expression + <span class="string">" not to throw exception "</span> + expected;
+        failed.expected = expected;
+        <span class="keyword">throw</span> failed;
+      }
+      <span class="keyword">return</span> prototype;
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p>Returns reference to the ExpectJS object with all the defined matchers.</p>
 
@@ -585,11 +637,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>Immediately invoke the function expression to define the expect object.</p>
 
