@@ -567,6 +567,25 @@ returns itself for chaining</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
+              <p>The &#39;toEqual&#39; matcher compares &#39;expression&#39; with the &#39;expected&#39; value.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    addMatcher(<span class="string">'toEqual'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(expected)</span> {</span>
+      <span class="keyword">return</span> identityComparison(expression, expected, <span class="literal">false</span>);
+    }, <span class="function"><span class="keyword">function</span> <span class="params">(expected)</span> {</span>
+      <span class="keyword">return</span> identityComparison(expression, expected, <span class="literal">true</span>);
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
               <p>The &#39;toContain&#39; matcher searches the &#39;expression&#39; Array for the &#39;expected&#39; value.
 &#39;not.toContain&#39; searches the &#39;expression&#39; Array not to contain the &#39;expected&#39; value.
 The match passes if the &#39;expected&#39; value is found.
@@ -584,11 +603,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p>The &#39;toThrow&#39; matcher catches the exception the &#39;expression&#39; throws when executed.
 &#39;not.toThrow&#39; expects no exception to be thrown when the &#39;expression&#39; is executed.
@@ -621,11 +640,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-33">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>Returns reference to the ExpectJS object with all the defined matchers.</p>
 
@@ -637,11 +656,11 @@ returns itself for chaining</p>
         </li>
         
         
-        <li id="section-34">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <p>Immediately invoke the function expression to define the expect object.</p>
 

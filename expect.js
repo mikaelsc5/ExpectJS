@@ -208,6 +208,13 @@
       return identityComparison(!expression, true, true);
     });
 
+    // The 'toEqual' matcher compares 'expression' with the 'expected' value.
+    addMatcher('toEqual', function (expected) {
+      return identityComparison(expression, expected, false);
+    }, function (expected) {
+      return identityComparison(expression, expected, true);
+    });
+
     // The 'toContain' matcher searches the 'expression' Array for the 'expected' value.
     // 'not.toContain' searches the 'expression' Array not to contain the 'expected' value.
     // The match passes if the 'expected' value is found.
