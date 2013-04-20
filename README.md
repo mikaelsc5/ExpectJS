@@ -32,6 +32,8 @@ The _'toBeTruthy'_ matcher is for boolean casting testing
 
 The _'toBeFalsy'_ matcher is for boolean casting testing
 
+The _'toEqual'_ matcher compares objects with ===
+
 The _'toThrow'_ matcher is for testing if a function throws an exception
 
 All matchers have a _'not'_ implemention that negate the matching.
@@ -43,6 +45,8 @@ Unable to find an assert library for functional programming a decision was made 
 * No loops, only recursions
 * No object or array state changes
 * No Date objects or usage of Math.random due to their changing nature
+
+Unfortunately it will not be possible to be fully follow the rules above as it's not possible to access object properties in a recursive manner in legacy browsers. So at least one exception to the rules must be made, but currently it is unclear how that exception is formulated. Also recursion has a high risk of causing a stack overflow, which means complex structures needs to be handled some other way that is to be determined later.
 
 This will be a learning effort as well as the author does not fully master functional programming. All contributions are welcomed.
 

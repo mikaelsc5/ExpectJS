@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.9
+// ExpectJS 0.0.10
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.9';
+  expect.VERSION = '0.0.10';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -71,9 +71,64 @@
           ((not !== true) && (actual === expected))) {
         return prototype;
       } else {
-        failed.message = "Expected " + expected + " to equal " + actual;
+        failed.message = "Expected " + actual + " to equal " + expected;
         failed.expected = expected;
         throw failed;
+      }
+    };
+
+    // A function for comparing objects 'actual' with 'expected' using the identity operator.
+    // The comparison is negated when 'not' is true.
+    // Returns itself for chaining.
+    function deepComparison(actual, expected, not) {
+      // Compare values using the identity operator
+      if (((not === true) && (actual !== expected)) ||
+          ((not !== true) && (actual === expected))) {
+        return prototype;
+      // Compare object type as only objects can have deep comparison
+      // TODO: handle more data types
+      } else if (((not === true) &&
+                  (typeof actual === "object") &&
+                  (typeof expected !== "object")) ||
+                 ((not !== true) &&
+                  (typeof actual !== "object") &&
+                  (typeof expected !== "object"))) {
+          failed.message = "Expected " + actual + " to equal " + expected;
+          failed.expected = expected;
+          throw failed;
+      } else {
+        // Unfortunately, there is no way to access Object properties in a recursive fashion in legacy browsers
+        // therefore we are forced to break the looping rules of functional programming
+        var actualKeys = [];
+        for(var actualProperty in actual) {
+          actualKeys.push(actualProperty);
+        }
+        var expectedKeys = [];
+        for(var expectedProperty in expected) {
+          expectedKeys.push(expectedProperty);
+        }
+
+        // Check key array lengths, if they aren't identical, then the objects are different
+        if (((not === true) && (actualKeys.length === expectedKeys.length)) ||
+            ((not !== true) && (actualKeys.length !== expectedKeys.length))) {
+          failed.message = "Expected " + actual + " to equal " + expected;
+          failed.expected = expected;
+          throw failed;
+        } else {
+          // The arrays have the same lenght, then check the keys are identical
+          for(var index = 0, indexLength = actualKeys.length; index < indexLength; index += 1) {
+            var key = actualKeys[index];
+            if (((not === true) && (actual[key] === expected[key])) ||
+                ((not !== true) && (actual[key] !== expected[key]))) {
+              failed.message = "Expected " + actual + " to equal " + expected;
+              failed.expected = expected;
+              throw failed;
+            }
+          }
+        }
+
+        // No differences were detected, return prototype for chaining
+        return prototype;
       }
     };
 
@@ -210,9 +265,9 @@
 
     // The 'toEqual' matcher compares 'expression' with the 'expected' value.
     addMatcher('toEqual', function (expected) {
-      return identityComparison(expression, expected, false);
+      return deepComparison(expression, expected, false);
     }, function (expected) {
-      return identityComparison(expression, expected, true);
+      return deepComparison(expression, expected, true);
     });
 
     // The 'toContain' matcher searches the 'expression' Array for the 'expected' value.

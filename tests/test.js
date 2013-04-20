@@ -40,7 +40,17 @@ describe("ExpectJS", function() {
 				expect(a).toEqual(12);
 			});
 
-
+			it("should work for objects", function() {
+				var foo = {
+					a: 12,
+					b: 34
+				};
+				var bar = {
+					a: 12,
+					b: 34
+				};
+				expect(foo).toEqual(bar);
+			});
 		});
 
 		it("The 'toBeDefined' matcher compares against 'undefined'", function() {
