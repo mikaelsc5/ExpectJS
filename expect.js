@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.10
+// ExpectJS 0.0.11
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.10';
+  expect.VERSION = '0.0.11';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -166,12 +166,33 @@
       recursion(0);
     }
 
+    // A function for comparing the 'actual' string with the 'expected' pattern using regular expressions.
+    // The comparison is negated when 'not' is true.
+    // Returns itself for chaining.
+    function matchComparison(actual, expected, not) {
+      // Create regular expression of "expected" unless "expected" already is a regular expression.
+      var regularExpression = (typeof expected === "object" && typeof expected.test === "function") ?
+                              expected :
+                              new RegExp(expected);
+      // Test the regular expression pattern for the "actual".
+      // The match passes when the test returns true and the "not" parameter is false or
+      // when the test returns false and the "not" parameter is true.
+      if (regularExpression.test(actual) === !not) {
+        return prototype;
+      // The match fails when the test returns true and the "not" parameter is also true or
+      // when the test returns false and the "not" parameter is false.
+      } else {
+        failed.message = "Expected " + actual + (not === true ? " not" : "") + " to match " + regularExpression;
+        failed.expected = expected;
+        throw failed;
+      }
+    };
 
   	// expect('expression').toBe
   	// -------------------------
 
     // The 'toBe' matcher compares 'expression' and 'expected' with ===.
-    // 'not.toBe' compares 'expression' and 'exprected' with !==.
+    // 'not.toBe' compares 'expression' and 'expected' with !==.
     // The match passes if they are the same object or primitives and
     // returns itself for chaining
 
@@ -269,6 +290,13 @@
     }, function (expected) {
       return deepComparison(expression, expected, true);
     });
+
+    // The 'toMatch' matcher compares 'expression' with the 'expected' regular expression.
+    addMatcher('toMatch', function (expected) {
+      return matchComparison(expression, expected, false);
+    }, function (expected) {
+      return matchComparison(expression, expected, true);
+    })
 
     // The 'toContain' matcher searches the 'expression' Array for the 'expected' value.
     // 'not.toContain' searches the 'expression' Array not to contain the 'expected' value.

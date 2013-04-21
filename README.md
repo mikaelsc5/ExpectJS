@@ -12,6 +12,26 @@ ExpectJS is a Behavior Driven Development assertion library for JavaScript.
 * You want a functional programming capable assert library 
 * (You want to extend the assertion library easily)
 
+## How to use ExpectJS
+
+### Node
+Install it with NPM and add to `package.json` as a devDependency
+
+```javascript
+$ npm install expectjs --save-dev
+```
+
+Then:
+```javascript
+var expect = require('expect.js');
+```
+
+### Browser
+Include `expect.js` from the top level of this repository.
+```html
+<script src="expect.js"></script>
+```
+
 ## Why did you create this?
 
 Jasmine, Chai and expect.js are great, but they all have something that didn't quite work as well as it could. Asynchronous testing support could be better in Jasmine. Chai didn't work in IE8 out of the box. expect.js has unfixed bugs and the syntax isn't as fluent as Jasmine's.
@@ -33,6 +53,8 @@ The _'toBeTruthy'_ matcher is for boolean casting testing
 The _'toBeFalsy'_ matcher is for boolean casting testing
 
 The _'toEqual'_ matcher compares objects with ===
+
+The _'toMatch'_ matcher compares the regular expression pattern with a string
 
 The _'toThrow'_ matcher is for testing if a function throws an exception
 
