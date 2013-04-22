@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.11
+// ExpectJS 0.0.12
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.11';
+  expect.VERSION = '0.0.12';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -72,6 +72,20 @@
         return prototype;
       } else {
         failed.message = "Expected " + actual + " to equal " + expected;
+        failed.expected = expected;
+        throw failed;
+      }
+    };
+
+    // A function for comparing 'actual' with 'expected' using the less than operator.
+    // The comparison is negated when 'not' is true.
+    // Returns itself for chaining.
+    function lessThanComparison(actual, expected, not) {
+      if (((not === true) && (actual > expected)) ||
+          ((not !== true) && (actual < expected))) {
+        return prototype;
+      } else {
+        failed.message = "Expected " + actual + (not === true ? " not" : "") + " to be less than " + expected;
         failed.expected = expected;
         throw failed;
       }
@@ -296,7 +310,14 @@
       return matchComparison(expression, expected, false);
     }, function (expected) {
       return matchComparison(expression, expected, true);
-    })
+    });
+
+    // The 'toBeLessThan' matcher compares 'expression' with 'expected' using less than operator.
+    addMatcher('toBeLessThan', function (expected) {
+      return lessThanComparison(expression, expected, false);
+    }, function (expected) {
+      return lessThanComparison(expression, expected, true);
+    });
 
     // The 'toContain' matcher searches the 'expression' Array for the 'expected' value.
     // 'not.toContain' searches the 'expression' Array not to contain the 'expected' value.

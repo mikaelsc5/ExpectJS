@@ -56,6 +56,8 @@ The _'toEqual'_ matcher compares objects with ===
 
 The _'toMatch'_ matcher compares the regular expression pattern with a string
 
+The _'toBeLessThan'_ matcher compares with <
+
 The _'toThrow'_ matcher is for testing if a function throws an exception
 
 All matchers have a _'not'_ implemention that negate the matching.
