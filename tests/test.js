@@ -117,6 +117,13 @@ describe("ExpectJS", function() {
 			expect(pi).not.toBeLessThan(e);
 		});
 
+		it("The 'toBeGreaterThan' is for mathematical comparisons", function() {
+			var pi = 3.1415926, e = 2.78;
+
+			expect(pi).toBeGreaterThan(e);
+			expect(e).not.toBeGreaterThan(pi);
+		})
+
 		it("The 'toThrow' matcher is for testing if a function throws an exception", function() {
 			var foo = function() {
 				return 1 + 2;
