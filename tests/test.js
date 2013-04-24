@@ -122,7 +122,14 @@ describe("ExpectJS", function() {
 
 			expect(pi).toBeGreaterThan(e);
 			expect(e).not.toBeGreaterThan(pi);
-		})
+		});
+
+		it("The 'toBeCloseTo' matcher is for precision math comparison", function() {
+			var pi = 3.1415926, e = 2.78;
+
+			expect(pi).not.toBeCloseTo(e, 2);
+			expect(pi).toBeCloseTo(e, 0);
+		});
 
 		it("The 'toThrow' matcher is for testing if a function throws an exception", function() {
 			var foo = function() {

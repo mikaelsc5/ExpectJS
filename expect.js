@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.13
+// ExpectJS 0.0.14
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.13';
+  expect.VERSION = '0.0.14';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -100,6 +100,28 @@
         return prototype;
       } else {
         failed.message = "Expected " + actual + (not === true ? " not" : "") + " to be greater than " + expected;
+        failed.expected = expected;
+        throw failed;
+      }
+    };
+
+    // A function for comparing 'actual' with 'expected' using the given precision.
+    // The comparison is negated when 'not' is true.
+    // Returns itself for chaining.
+    function precisionComparison(actual, expected, precision, not) {
+      // Default undefined precision to 2
+      var undef;
+      if (precision === undef) {
+        precision = 2;
+      }
+      var difference = Math.abs(expected - actual);
+      var tolerance = (Math.pow(10, -precision) / 2);
+
+      if (((not === true) && (difference > tolerance)) ||
+          ((not !== true) && (difference < tolerance))) {
+        return prototype;
+      } else {
+        failed.message = "Expected " + actual + (not === true ? " not" : "") + " to be within +/-" + tolerance + " from value " + expected;
         failed.expected = expected;
         throw failed;
       }
@@ -338,6 +360,13 @@
       return greaterThanComparison(expression, expected, false);
     }, function (expected) {
       return greaterThanComparison(expression, expected, true);
+    });
+
+    // The 'toBeCloseTo' matcher compares 'expression' to 'expected' with the given 'precision'.
+    addMatcher('toBeCloseTo', function (expected, precision) {
+      return precisionComparison(expression, expected, precision, false);
+    }, function (expected, precision) {
+      return precisionComparison(expression, expected, precision, true);
     });
 
     // The 'toContain' matcher searches the 'expression' Array for the 'expected' value.
