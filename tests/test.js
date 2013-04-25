@@ -144,4 +144,22 @@ describe("ExpectJS", function() {
 		});
 	});
 
+	describe("The expect.toFail function is for  designed to be used for explicitly detect erroneous code flow", function() {
+		it("should throw an Error when executed", function() {
+			expect(expect.toFail).toThrow();
+		});
+
+		it("should include a message, actual and expected values", function() {
+			var message = "The server response should never be empty",
+				response,
+				expected = {"data": "foo"};
+			try {
+				expect.toFail(message, response, expected);
+			} catch (e) {
+				expect(e.message).toEqual(message);
+				expect(e.actual).toBeUndefined;
+				expect(e.expected).toEqual(expected);
+			}
+		});
+	});
 });

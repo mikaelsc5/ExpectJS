@@ -39,6 +39,15 @@
     return this;
   };
 
+  // A function for failing expects in ExpectJS.
+  // The function throws an Error with the given 'message', 'actual', and 'expected' values.
+  expect.toFail = function(message, actual, expected) {
+    var AssertionError = new Error(message);
+    AssertionError.actual = actual;
+    AssertionError.expected = expected;
+    throw AssertionError;
+  }
+
   // ExpectJS constructor
   function ExpectJS(expression) {
 

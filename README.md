@@ -66,6 +66,12 @@ The _'toThrow'_ matcher is for testing if a function throws an exception
 
 All matchers have a _'not'_ implemention that negate the matching.
 
+There is also a _'toFail'_ function for detecting erroneous control flows in tests.
+Unlike the other functions, _'toFail'_ is a function defined for the _'expect'_ object and used as follows:
+```javascript
+expect.toFail("The server response should never be empty", response, {'data': 'foo'});
+```
+
 ## Design choices
 
 Unable to find an assert library for functional programming a decision was made to create one. The library will follow the rules of function programming laid out by [Stephen Young](http://stephen-young.me.uk/2013/01/20/functional-programming-with-javascript.html "Functional programming with Javascript")
