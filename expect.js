@@ -1,7 +1,7 @@
 // ExpectJS
 // ========
 
-// ExpectJS 0.0.14
+// ExpectJS 0.0.15
 
 // (c) 2013 Mikael Blomberg
 // ExpectJS may be freely distributed under the MIT license.
@@ -30,7 +30,7 @@
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  expect.VERSION = '0.0.14';
+  expect.VERSION = '0.0.15';
 
   // Runs ExpectJS in *noConflict* mode, returning the `expect` variable
   // to its previous owner. Returns a reference to this expect object.
@@ -57,13 +57,6 @@
     // ExpectJS 'not' property to negate the matcher
     prototype.not = Object.create(null);
 
-    // ExpectJS failed object
-    var failed = {
-      "message" : null,
-      "actual" : expression,
-      "expected" : null
-    }
-
     // A function for adding more matchers to ExpectJS.
     // The added function will have the given name and
     // negated in the 'not' property.
@@ -80,9 +73,9 @@
           ((not !== true) && (actual === expected))) {
         return prototype;
       } else {
-        failed.message = "Expected " + actual + " to equal " + expected;
-        failed.expected = expected;
-        throw failed;
+        return expect.toFail("Expected " + actual + " to equal " + expected,
+                      actual,
+                      expected);
       }
     };
 
@@ -94,9 +87,9 @@
           ((not !== true) && (actual < expected))) {
         return prototype;
       } else {
-        failed.message = "Expected " + actual + (not === true ? " not" : "") + " to be less than " + expected;
-        failed.expected = expected;
-        throw failed;
+        return expect.toFail("Expected " + actual + (not === true ? " not" : "") + " to be less than " + expected,
+                      actual,
+                      expected);
       }
     };
 
@@ -108,9 +101,9 @@
           ((not !== true) && (actual > expected))) {
         return prototype;
       } else {
-        failed.message = "Expected " + actual + (not === true ? " not" : "") + " to be greater than " + expected;
-        failed.expected = expected;
-        throw failed;
+        return expect.toFail("Expected " + actual + (not === true ? " not" : "") + " to be greater than " + expected,
+                      actual,
+                      expected);
       }
     };
 
@@ -130,9 +123,9 @@
           ((not !== true) && (difference < tolerance))) {
         return prototype;
       } else {
-        failed.message = "Expected " + actual + (not === true ? " not" : "") + " to be within +/-" + tolerance + " from value " + expected;
-        failed.expected = expected;
-        throw failed;
+        return expect.toFail("Expected " + actual + (not === true ? " not" : "") + " to be within +/-" + tolerance + " from value " + expected,
+                      actual,
+                      expected);
       }
     };
 
@@ -152,9 +145,9 @@
                  ((not !== true) &&
                   (typeof actual !== "object") &&
                   (typeof expected !== "object"))) {
-          failed.message = "Expected " + actual + " to equal " + expected;
-          failed.expected = expected;
-          throw failed;
+          return expect.toFail("Expected " + actual + " to equal " + expected,
+                        actual,
+                        expected);
       } else {
         // Unfortunately, there is no way to access Object properties in a recursive fashion in legacy browsers
         // therefore we are forced to break the looping rules of functional programming
@@ -170,18 +163,18 @@
         // Check key array lengths, if they aren't identical, then the objects are different
         if (((not === true) && (actualKeys.length === expectedKeys.length)) ||
             ((not !== true) && (actualKeys.length !== expectedKeys.length))) {
-          failed.message = "Expected " + actual + " to equal " + expected;
-          failed.expected = expected;
-          throw failed;
+          return expect.toFail("Expected " + actual + " to equal " + expected,
+                        actual,
+                        expected);
         } else {
           // The arrays have the same lenght, then check the keys are identical
           for(var index = 0, indexLength = actualKeys.length; index < indexLength; index += 1) {
             var key = actualKeys[index];
             if (((not === true) && (actual[key] === expected[key])) ||
                 ((not !== true) && (actual[key] !== expected[key]))) {
-              failed.message = "Expected " + actual + " to equal " + expected;
-              failed.expected = expected;
-              throw failed;
+              return expect.toFail("Expected " + actual + " to equal " + expected,
+                            actual,
+                            expected);
             }
           }
         }
@@ -208,9 +201,9 @@
         // the 'not' expected value has been found
         if (((not !== true) && (lastIndex === index)) ||
             ((not === true) && (value === expected))) {
-          failed.message = "Expected to find " + expected + " in " + array;
-          failed.expected = expected;
-          throw failed;
+          return expect.toFail("Expected to find " + expected + " in " + array,
+                        array,
+                        expected);
         // Pass condition:
         // The 'expected' value has been found or
         // all elements in the array has been checked and none was the 'not' expected value
@@ -241,9 +234,9 @@
       // The match fails when the test returns true and the "not" parameter is also true or
       // when the test returns false and the "not" parameter is false.
       } else {
-        failed.message = "Expected " + actual + (not === true ? " not" : "") + " to match " + regularExpression;
-        failed.expected = expected;
-        throw failed;
+        return expect.toFail("Expected " + actual + (not === true ? " not" : "") + " to match " + regularExpression,
+                      actual,
+                      expected);
       }
     };
 
@@ -404,16 +397,16 @@
       } catch (e) {
         return prototype;
       }
-      failed.message = "Expected " + expression + " to throw exception " + expected;
-      failed.expected = expected;
-      throw failed;
+      return expect.toFail("Expected " + expression + " to throw exception " + expected,
+                    expression,
+                    expected);
     }, function(expected) {
       try {
         expression();
       } catch (e) {
-        failed.message = "Expected " + expression + " not to throw exception " + expected;
-        failed.expected = expected;
-        throw failed;
+        return expect.toFail("Expected " + expression + " not to throw exception " + expected,
+                      expression,
+                      expected);
       }
       return prototype;
     });

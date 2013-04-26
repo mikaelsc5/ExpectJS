@@ -144,7 +144,7 @@ describe("ExpectJS", function() {
 		});
 	});
 
-	describe("The expect.toFail function is for  designed to be used for explicitly detect erroneous code flow", function() {
+	describe("The expect.toFail function is designed explicitly for detecting erroneous code flow", function() {
 		it("should throw an Error when executed", function() {
 			expect(expect.toFail).toThrow();
 		});
